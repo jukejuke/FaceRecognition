@@ -60,4 +60,24 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,101); // 101: 相机的返回码参数（随便一个值就行，只要不冲突就好）
         Log.e("","跳转相机成功");
     }
+
+    /**
+     * 打开人脸识别
+     * @param view
+     */
+    public void btnOpenFaceRecongnition(View view){
+        Toast.makeText(MainActivity.this, "打开人脸识别页面...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,SecondActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 打开基础页面
+     * @param view
+     */
+    public void btnOpenBaseActivity(View view){
+        Toast.makeText(MainActivity.this, "打开基础页面...", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+        startActivity(intent);
+    }
 }
