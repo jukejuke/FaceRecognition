@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">人脸识别DEMO</string>
+    <string name="btn1">打开第二页面</string>
+    <string name="btn2">打开网页</string>
+    <string name="btn3">打开相机</string>
+    <string name="btn4">打开相册</string>
+    <string name="btn5">人脸识别</string>
+
 </resources>

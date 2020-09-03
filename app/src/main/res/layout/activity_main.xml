@@ -7,14 +7,14 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btn1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_drawable"
-        android:text="打开第二页面"
+        android:text="@string/btn1"
         android:textColor="#ffffff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:onClick="btn1Click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -22,47 +22,60 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_drawable"
         android:onClick="btn2Click"
-        android:text="打开网页"
+        android:text="@string/btn2"
         android:textColor="#ffffff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/btn1" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn3"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_drawable"
         android:onClick="bntOpenCamera"
-        android:text="打开相机"
+        android:text="@string/btn3"
         android:textColor="#ffffff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+        app:layout_constraintTop_toBottomOf="@+id/btn2" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn4"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_drawable"
         android:onClick="toPicture"
-        android:text="打开相册"
+        android:text="@string/btn4"
         android:textColor="#ffffff"
-        android:textSize="16dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btn3" />
+
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_drawable"
+        android:text="@string/btn5"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
