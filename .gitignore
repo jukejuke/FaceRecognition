@@ -12,5 +12,9 @@
 /captures
 .externalNativeBuild
 .cxx
+/app/src/main/assets/seetaface
 
 !.gitignore
+/app/src/main/assets/seetaface/SeetaFaceDetector2.0.ats
+/app/src/main/assets/seetaface/SeetaFaceRecognizer2.0.ats
+/app/src/main/assets/seetaface/SeetaPointDetector2.0.pts5.ats
