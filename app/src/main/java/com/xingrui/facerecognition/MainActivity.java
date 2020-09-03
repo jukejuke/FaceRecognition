@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void btnOpenFaceRecongnition(View view){
         Toast.makeText(MainActivity.this, "打开人脸识别页面...", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MainActivity.this,SecondActivity.class);
+        Intent intent = new Intent(MainActivity.this,FaceRecognitionActivity.class);
         startActivity(intent);
     }
 
