@@ -5,12 +5,15 @@ android {
 
     defaultConfig {
         applicationId "com.xingrui.facerecognition"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
 
     buildTypes {
@@ -31,5 +34,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
+    implementation 'com.github.shuguoli68:LiSeetaFace2:1.0'
 
 }
