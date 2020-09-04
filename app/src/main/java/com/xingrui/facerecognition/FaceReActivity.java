@@ -1,15 +1,22 @@
 package com.xingrui.facerecognition;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.VectorEnabledTintResources;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -24,6 +31,7 @@ import java.util.List;
 
 public class FaceReActivity extends AppCompatActivity {
 
+    private Paint paint;
     private Bitmap bitmap;
     private Bitmap bitmap2;
     private SeetaImageData seetaImageData;
@@ -34,6 +42,17 @@ public class FaceReActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_re);
+        initData();
+    }
+
+    private void initData() {
+        bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.timg);
+        detectFace();
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(3.0f);
+        paint.setColor(Color.RED);
+        paint.setTextSize(36.0f);
     }
 
     public void onClick(View view){
@@ -42,10 +61,26 @@ public class FaceReActivity extends AppCompatActivity {
             if(hasFace){
                 Log.i("FaceReActivity","hasFace...");
             }
+            hasFace = false;
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
                     .maxSelectNum(1)
                     .forResult(1);
+        }
+        else if(view.getId() == R.id.button4){
+            if (!hasFace){
+                Toast.makeText(this, "没有检测到人脸", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Bitmap out =bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            Canvas canvas = new Canvas(out);
+            for(int i=0;i<seetaRects.length;i++){
+                SeetaRect rect = seetaRects[i];
+                canvas.drawRect(new Rect(rect.x, rect.y, rect.x+rect.width, rect.y+rect.height), paint);
+                canvas.drawText(String.valueOf(i), rect.x + rect.width/2.0f, rect.y-15.0f, paint);
+            }
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageBitmap(out);
         }
     }
 
@@ -81,6 +116,9 @@ public class FaceReActivity extends AppCompatActivity {
                 if (seetaRects == null || seetaRects.length == 0) {
                     Log.i("detectFace","没有检测到人脸");
                     hasFace = false;
+                } else{
+                    String info = "X:"+seetaRects[0].x+",Y:"+seetaRects[0].y;
+                    Log.i("seetaRect",info);
                 }
                 hasFace = true;
             }
