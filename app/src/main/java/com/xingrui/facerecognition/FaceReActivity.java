@@ -23,6 +23,7 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.seeta.sdk.SeetaImageData;
+import com.seeta.sdk.SeetaPointF;
 import com.seeta.sdk.SeetaRect;
 import com.seeta.sdk.util.SeetaHelper;
 import com.seeta.sdk.util.SeetaUtil;
@@ -78,6 +79,34 @@ public class FaceReActivity extends AppCompatActivity {
                 SeetaRect rect = seetaRects[i];
                 canvas.drawRect(new Rect(rect.x, rect.y, rect.x+rect.width, rect.y+rect.height), paint);
                 canvas.drawText(String.valueOf(i), rect.x + rect.width/2.0f, rect.y-15.0f, paint);
+            }
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageBitmap(out);
+        }
+        else if(view.getId() == R.id.button5){
+            if (!hasFace){
+                Toast.makeText(this, "没有检测到人脸", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Bitmap out =bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            Canvas canvas = new Canvas(out);
+            for(int i=0;i<seetaRects.length;i++){
+                SeetaRect rect = seetaRects[i];
+                canvas.drawRect(new Rect(rect.x, rect.y, rect.x+rect.width, rect.y+rect.height), paint);
+                //根据检测到的人脸进行关键点定位
+                SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, rect);
+                if(seetaPoints != null && seetaPoints.length >0){
+                    paint.setColor(Color.RED);
+                    for (int j=0;j<seetaPoints.length;j++) { //绘制面部关键点
+                        SeetaPointF seetaPoint = seetaPoints[j];
+                        canvas.drawCircle(
+                                (float)seetaPoint.x,
+                                (float)seetaPoint.y,
+                                5.0f,
+                                paint
+                        );
+                    }
+                }
             }
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(out);
