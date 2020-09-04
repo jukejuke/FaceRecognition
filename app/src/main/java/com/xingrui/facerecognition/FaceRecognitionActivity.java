@@ -6,12 +6,14 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
 import com.seeta.sdk.util.SeetaHelper;
@@ -38,7 +40,14 @@ public class FaceRecognitionActivity extends Activity {
 
     public void onClick(View view){
         Log.i("onClick"," called...");
-        Log.i("Environment.getExternalStorageDirectory():", Environment.getExternalStorageDirectory()+ File.separator+"seetaface");
+        Log.i("externalStorageDir", Environment.getExternalStorageDirectory()+ File.separator+"seetaface");
+        Log.i("id",view.getId()+"");
+        Log.i("btn id",R.id.button2 +"");
+        if(view.getId() == R.id.button2){
+            Toast.makeText(FaceRecognitionActivity.this, "打开人脸识别...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(FaceRecognitionActivity.this,FaceReActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initPer(){
