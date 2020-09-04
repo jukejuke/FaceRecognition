@@ -8,8 +8,8 @@
     <corners android:radius="10dip" />
     <padding
         android:bottom="12dp"
-        android:left="50dp"
-        android:right="50dp"
+        android:left="10dp"
+        android:right="10dp"
         android:top="12dp"
         />
     <!--设置边框线的宽度和颜色-->
