@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.VectorEnabledTintResources;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
@@ -28,6 +30,7 @@ import com.seeta.sdk.SeetaRect;
 import com.seeta.sdk.util.SeetaHelper;
 import com.seeta.sdk.util.SeetaUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FaceReActivity extends AppCompatActivity {
@@ -38,6 +41,8 @@ public class FaceReActivity extends AppCompatActivity {
     private SeetaImageData seetaImageData;
     private boolean hasFace = false;
     private SeetaRect[] seetaRects;
+    private ProgressDialog pd;
+    private List<Float> similarity = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +116,15 @@ public class FaceReActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(out);
         }
+        else if(view.getId() == R.id.button6){
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .maxSelectNum(1)
+                    .forResult(2);
+        }
+        else if(view.getId() == R.id.button7){
+            compareTwo();
+        }
     }
 
     @Override
@@ -129,7 +143,8 @@ public class FaceReActivity extends AppCompatActivity {
                 case 2: {
                     List<LocalMedia> selectList2 = PictureSelector.obtainMultipleResult(data);
                     bitmap2 = BitmapFactory.decodeFile(selectList2.get(0).getPath());
-                    //img2.setImageBitmap(bitmap2)
+                    ImageView imageView2 = findViewById(R.id.imageView2);
+                    imageView2.setImageBitmap(bitmap2);
                     break;
                 }
             }
@@ -152,5 +167,65 @@ public class FaceReActivity extends AppCompatActivity {
                 hasFace = true;
             }
         }).start();
+    }
+
+    private void compareTwo(){
+        TextView textView = findViewById(R.id.textView);
+        if (seetaRects == null || seetaRects.length ==0){
+            Toast.makeText(FaceReActivity.this, "第一张图片没有检测到人脸", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SeetaImageData seetaImageData2 = SeetaUtil.ConvertToSeetaImageData(bitmap2);
+        SeetaRect[] seetaRects2 = SeetaHelper.getInstance().faceDetector2.Detect(seetaImageData2);
+        if (seetaRects2 == null || seetaRects2.length == 0){
+            Toast.makeText(FaceReActivity.this, "第二张图片没有检测到人脸", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        showDia();
+        Bitmap out = bitmap2.copy(Bitmap.Config.ARGB_8888, true);
+        StringBuffer result = new StringBuffer();
+        Canvas canvas = new Canvas(out);
+        for(int i=0;i< seetaRects2.length;i++){
+            SeetaRect rect = seetaRects2[i];
+            canvas.drawRect(new Rect(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height), paint);
+            canvas.drawText(String.valueOf(i), rect.x + rect.width/2.0f, rect.y-15.0f, paint);
+            //根据检测到的人脸进行面部关键点定位
+            SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, seetaRects[0]); //第一张人脸
+            SeetaPointF[] seetaPoints2 = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData2, rect);
+            float sim = SeetaHelper.getInstance().faceRecognizer2.Compare(
+                    seetaImageData,
+                    seetaPoints,
+                    seetaImageData2,
+                    seetaPoints2
+            );
+            Log.i("FaceRecognizer2", "similarity:"+sim);
+            similarity.add(sim);
+        }
+        for(int j=0;j<similarity.size();j++){
+            if (result.length()>0)
+                result.append(";\n");
+            result.append( String.format("第%d 个similarity:%f",j,similarity.get(j)));
+            Log.i("FaceRecognizer2", String.format("第%d 个similarity:%f",j,similarity.get(j)));
+        }
+
+        ImageView imageView2 = findViewById(R.id.imageView2);
+        imageView2.setImageBitmap(out);
+        textView.setText(result.toString());
+        cancelDia();
+        result.setLength(0);
+
+    }
+
+    private void showDia(){
+        if (pd!=null && !pd.isShowing()){
+            pd.show();
+        }
+    }
+
+    private void cancelDia(){
+        if (pd!=null && pd.isShowing()){
+            pd.dismiss();
+        }
     }
 }
