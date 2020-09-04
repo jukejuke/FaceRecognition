@@ -9,11 +9,14 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import com.luck.picture.lib.PictureSelector;
 import com.seeta.sdk.util.SeetaHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,11 @@ public class FaceRecognitionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_recognition);
         initPer();
+    }
+
+    public void onClick(View view){
+        Log.i("onClick"," called...");
+        Log.i("Environment.getExternalStorageDirectory():", Environment.getExternalStorageDirectory()+ File.separator+"seetaface");
     }
 
     private void initPer(){
