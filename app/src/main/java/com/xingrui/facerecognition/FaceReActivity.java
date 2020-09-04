@@ -15,6 +15,10 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.seeta.sdk.SeetaImageData;
+import com.seeta.sdk.SeetaRect;
+import com.seeta.sdk.util.SeetaHelper;
+import com.seeta.sdk.util.SeetaUtil;
 
 import java.util.List;
 
@@ -22,6 +26,9 @@ public class FaceReActivity extends AppCompatActivity {
 
     private Bitmap bitmap;
     private Bitmap bitmap2;
+    private SeetaImageData seetaImageData;
+    private boolean hasFace = false;
+    private SeetaRect[] seetaRects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,9 @@ public class FaceReActivity extends AppCompatActivity {
     public void onClick(View view){
         Log.i("FaceReActivity","clicked...");
         if(view.getId() == R.id.button3){
+            if(hasFace){
+                Log.i("FaceReActivity","hasFace...");
+            }
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
                     .maxSelectNum(1)
@@ -50,7 +60,7 @@ public class FaceReActivity extends AppCompatActivity {
                     bitmap = BitmapFactory.decodeFile(selectList.get(0).getPath());
                     ImageView imageView = findViewById(R.id.imageView);
                     imageView.setImageBitmap(bitmap);
-                    //detectFace()
+                    detectFace();
                     break;
                 case 2: {
                     List<LocalMedia> selectList2 = PictureSelector.obtainMultipleResult(data);
@@ -60,5 +70,20 @@ public class FaceReActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void detectFace(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                seetaImageData = SeetaUtil.ConvertToSeetaImageData(bitmap);
+                seetaRects = SeetaHelper.getInstance().faceDetector2.Detect(seetaImageData);
+                if (seetaRects == null || seetaRects.length == 0) {
+                    Log.i("detectFace","没有检测到人脸");
+                    hasFace = false;
+                }
+                hasFace = true;
+            }
+        }).start();
     }
 }
