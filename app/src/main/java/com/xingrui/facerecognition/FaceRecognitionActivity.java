@@ -48,6 +48,11 @@ public class FaceRecognitionActivity extends Activity {
             Intent intent = new Intent(FaceRecognitionActivity.this,FaceReActivity.class);
             startActivity(intent);
         }
+        else if(view.getId() == R.id.button8){
+            Toast.makeText(FaceRecognitionActivity.this, "打开人脸相似度...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(FaceRecognitionActivity.this,FaceCompareActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initPer(){
