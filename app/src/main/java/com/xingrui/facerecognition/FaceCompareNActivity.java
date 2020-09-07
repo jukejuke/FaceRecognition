@@ -2,14 +2,20 @@ package com.xingrui.facerecognition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.seeta.sdk.SeetaImageData;
 import com.seeta.sdk.SeetaPointF;
 import com.seeta.sdk.SeetaRect;
@@ -25,6 +31,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
 
     private List<Integer> imgList = null;
     private Map<Integer,Integer> imgRegisterMap = new HashMap<Integer,Integer>();
+    private Bitmap bitmapM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +45,13 @@ public class FaceCompareNActivity extends AppCompatActivity {
             register();
         }
         else if(view.getId() == R.id.selectImage){
-
+            PictureSelector.create(this)
+                    .openGallery(PictureMimeType.ofImage())
+                    .maxSelectNum(1)
+                    .forResult(1);
         }
         else if(view.getId() == R.id.faceRecognition){
-
+            recognize();
         }
     }
 
@@ -59,6 +69,9 @@ public class FaceCompareNActivity extends AppCompatActivity {
                 add(R.mipmap.dbimg_9);
             }
         };
+        bitmapM = BitmapFactory.decodeResource(getResources(),R.mipmap.timg);
+        ImageView imageView = findViewById(R.id.imageView4);
+        imageView.setImageBitmap(bitmapM);
     }
 
     /**
@@ -86,5 +99,39 @@ public class FaceCompareNActivity extends AppCompatActivity {
             textView.setText(String.format("注册第%d个图片,ok...",i));
         }
         Toast.makeText(FaceCompareNActivity.this, "初始化完成...", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 识别
+     */
+    public void recognize(){
+        TextView textView = findViewById(R.id.textView2);
+        float[] similarity = new float[1];//save the most similar face similarity value
+        SeetaImageData seetaImageData = SeetaUtil.ConvertToSeetaImageData(bitmapM);
+        SeetaRect[] seetaRects = SeetaHelper.getInstance().faceDetector2.Detect(seetaImageData);
+        if (seetaRects == null || seetaRects.length == 0){
+            textView.setText("未识别到头像...");
+            Log.e("regiger","未识别到头像...");
+            return;
+        }
+        SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, seetaRects[0]);
+        int targetIndex = SeetaHelper.getInstance().faceRecognizer2.Recognize(seetaImageData,seetaPoints,similarity);
+        textView.setText(String.format("识别头像ID：%d,similarity:%f",targetIndex,similarity[0]));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    // 图片、视频、音频选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    bitmapM = BitmapFactory.decodeFile(selectList.get(0).getPath());
+                    ImageView imageView = findViewById(R.id.imageView4);
+                    imageView.setImageBitmap(bitmapM);
+                    break;
+            }
+        }
     }
 }
