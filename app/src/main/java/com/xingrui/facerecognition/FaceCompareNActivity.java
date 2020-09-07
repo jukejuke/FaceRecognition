@@ -32,6 +32,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
     private List<Integer> imgList = null;
     private Map<Integer,Integer> imgRegisterMap = new HashMap<Integer,Integer>();
     private Bitmap bitmapM;
+    private Bitmap bitMapS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
      */
     public void recognize(){
         TextView textView = findViewById(R.id.textView2);
+        long l = System.currentTimeMillis();
         float[] similarity = new float[1];//save the most similar face similarity value
         SeetaImageData seetaImageData = SeetaUtil.ConvertToSeetaImageData(bitmapM);
         SeetaRect[] seetaRects = SeetaHelper.getInstance().faceDetector2.Detect(seetaImageData);
@@ -116,7 +118,16 @@ public class FaceCompareNActivity extends AppCompatActivity {
         }
         SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, seetaRects[0]);
         int targetIndex = SeetaHelper.getInstance().faceRecognizer2.Recognize(seetaImageData,seetaPoints,similarity);
-        textView.setText(String.format("识别头像ID：%d,similarity:%f",targetIndex,similarity[0]));
+        long timeDiff = (System.currentTimeMillis() - l);
+        if(similarity.length>0) {
+            textView.setText(String.format("识别头像ID：%d,similarity:%f,时间：%d毫秒", targetIndex, similarity[0],timeDiff));
+        }else{
+            textView.setText(String.format("识别头像ID：%d,时间：%d毫秒", targetIndex, timeDiff));
+        }
+        int imgId = imgRegisterMap.get(targetIndex);
+        bitMapS = BitmapFactory.decodeResource(getResources(),imgId);
+        ImageView imageView = findViewById(R.id.imageView5);
+        imageView.setImageBitmap(bitMapS);
     }
 
     @Override
