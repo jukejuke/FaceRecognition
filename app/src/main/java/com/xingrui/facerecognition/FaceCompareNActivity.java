@@ -3,6 +3,7 @@ package com.xingrui.facerecognition;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +35,15 @@ public class FaceCompareNActivity extends AppCompatActivity {
     private Map<Integer,Integer> imgRegisterMap = new HashMap<Integer,Integer>();
     private Bitmap bitmapM;
     private Bitmap bitMapS;
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_compare_n);
         init();
+        pb = findViewById(R.id.progressBar);
+        pb.setVisibility(View.GONE);
     }
 
     public void onClick(View view){
@@ -68,6 +73,196 @@ public class FaceCompareNActivity extends AppCompatActivity {
                 add(R.mipmap.dbimg_7);
                 add(R.mipmap.dbimg_8);
                 add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_1);
+                add(R.mipmap.dbimg_2);
+                add(R.mipmap.dbimg_3);
+                add(R.mipmap.dbimg_4);
+                add(R.mipmap.dbimg_5);
+                add(R.mipmap.dbimg_6);
+                add(R.mipmap.dbimg_7);
+                add(R.mipmap.dbimg_8);
+                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_10);
             }
         };
         bitmapM = BitmapFactory.decodeResource(getResources(),R.mipmap.timg);
@@ -79,6 +274,12 @@ public class FaceCompareNActivity extends AppCompatActivity {
      * 注册
      */
     public void register(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pb.setVisibility(View.VISIBLE);
+            }
+        });
         TextView textView = findViewById(R.id.textView2);
         int i = 0;
         for(Integer id:imgList){
@@ -97,9 +298,10 @@ public class FaceCompareNActivity extends AppCompatActivity {
             // 3. 注册头像
             int registedFaceIndex = SeetaHelper.getInstance().faceRecognizer2.Register(seetaImageData,seetaPoints);
             imgRegisterMap.put(registedFaceIndex,id);
-            textView.setText(String.format("注册第%d个图片,ok...",i));
+            textView.setText(String.format("注册第%d个图片,Index:%d,ok...",i,registedFaceIndex));
         }
         Toast.makeText(FaceCompareNActivity.this, "初始化完成...", Toast.LENGTH_SHORT).show();
+        pb.setVisibility(View.GONE);
     }
 
     /**
