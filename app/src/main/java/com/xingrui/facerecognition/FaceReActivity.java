@@ -49,10 +49,15 @@ public class FaceReActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_re);
         initData();
+        pd = new ProgressDialog(this);
+        pd.setTitle("提示");
+        pd.setMessage("正在检测中...");
+        pd.setCanceledOnTouchOutside(false);
     }
 
     private void initData() {
         bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.timg);
+        bitmap2 = BitmapFactory.decodeResource(getResources(), R.mipmap.timg_2);
         detectFace();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
