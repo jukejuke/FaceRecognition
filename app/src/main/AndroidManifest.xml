@@ -3,6 +3,9 @@
     package="com.xingrui.facerecognition">
     <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 读写 -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.PERMISSIONS_STORAGE" />
 
@@ -13,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FaceCompareNActivity"></activity>
+        <activity android:name=".FaceCompareCNActivity"></activity>
+        <activity android:name=".FaceCompareNActivity" />
         <activity android:name=".FaceCompareActivity" />
         <activity android:name=".FaceReActivity" />
         <activity android:name=".FaceRecognitionActivity" />

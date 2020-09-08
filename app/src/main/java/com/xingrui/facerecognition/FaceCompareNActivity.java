@@ -263,6 +263,8 @@ public class FaceCompareNActivity extends AppCompatActivity {
 //                add(R.mipmap.dbimg_7);
 //                add(R.mipmap.dbimg_8);
 //                add(R.mipmap.dbimg_9);
+                add(R.mipmap.dbimg_01);
+                add(R.mipmap.dbimg_02);
                 add(R.mipmap.dbimg_10);
             }
         };
@@ -275,12 +277,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
      * 注册
      */
     public void register(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                pb.setVisibility(View.VISIBLE);
-            }
-        });
+        pb.setVisibility(View.VISIBLE);
         TextView textView = findViewById(R.id.textView2);
         int i = 0;
         for(Integer id:imgList){

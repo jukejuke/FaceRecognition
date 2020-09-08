@@ -29,6 +29,7 @@ public class FaceRecognitionActivity extends Activity {
     private List<String> pers = new ArrayList<String>(){{
         add(Manifest.permission.READ_EXTERNAL_STORAGE);
         add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        add(Manifest.permission.CAMERA);
     }};
 
     @Override
@@ -56,6 +57,11 @@ public class FaceRecognitionActivity extends Activity {
         else if(view.getId() == R.id.button10){
             Toast.makeText(FaceRecognitionActivity.this, "打开人脸比对（1：N）...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(FaceRecognitionActivity.this,FaceCompareNActivity.class);
+            startActivity(intent);
+        }
+        else if(view.getId() == R.id.button11){
+            Toast.makeText(FaceRecognitionActivity.this, "人脸识别（摄像头 1:N）...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(FaceRecognitionActivity.this,FaceCompareCNActivity.class);
             startActivity(intent);
         }
     }
