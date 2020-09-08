@@ -23,6 +23,7 @@ import com.seeta.sdk.SeetaPointF;
 import com.seeta.sdk.SeetaRect;
 import com.seeta.sdk.util.SeetaHelper;
 import com.seeta.sdk.util.SeetaUtil;
+import com.xingrui.facerecognition.storage.RegisterInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class FaceCompareNActivity extends AppCompatActivity {
 
     private List<Integer> imgList = null;
-    private Map<Integer,Integer> imgRegisterMap = new HashMap<Integer,Integer>();
+    //private Map<Integer,Integer> imgRegisterMap = new HashMap<Integer,Integer>();
     private Bitmap bitmapM;
     private Bitmap bitMapS;
     private ProgressBar pb;
@@ -297,7 +298,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
             SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, seetaRects[0]);
             // 3. 注册头像
             int registedFaceIndex = SeetaHelper.getInstance().faceRecognizer2.Register(seetaImageData,seetaPoints);
-            imgRegisterMap.put(registedFaceIndex,id);
+            RegisterInfo.imgRegisterMap.put(registedFaceIndex,id);
             textView.setText(String.format("注册第%d个图片,Index:%d,ok...",i,registedFaceIndex));
         }
         Toast.makeText(FaceCompareNActivity.this, "初始化完成...", Toast.LENGTH_SHORT).show();
@@ -326,7 +327,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
         }else{
             textView.setText(String.format("识别头像ID：%d,时间：%d毫秒", targetIndex, timeDiff));
         }
-        int imgId = imgRegisterMap.get(targetIndex);
+        int imgId = RegisterInfo.imgRegisterMap.get(targetIndex);
         bitMapS = BitmapFactory.decodeResource(getResources(),imgId);
         ImageView imageView = findViewById(R.id.imageView5);
         imageView.setImageBitmap(bitMapS);
