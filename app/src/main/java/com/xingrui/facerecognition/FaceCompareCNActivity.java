@@ -22,6 +22,8 @@ import com.seeta.sdk.SeetaPointF;
 import com.seeta.sdk.SeetaRect;
 import com.seeta.sdk.util.SeetaHelper;
 import com.seeta.sdk.util.SeetaUtil;
+import com.xingrui.facerecognition.msg.RaceCompareInfo;
+import com.xingrui.facerecognition.storage.RegisterInfo;
 import com.xingrui.facerecognition.widget.FaceCameraView;
 
 import java.io.ByteArrayOutputStream;
@@ -31,6 +33,7 @@ public class FaceCompareCNActivity extends AppCompatActivity {
     private FaceCameraView faceCameraView;
     private TextView textView;
     private ImageView imageView;
+    private Bitmap bitmap;
     private boolean isScanning = false;
     private int failedCount = 0;//失败次数
     Handler handler = new Handler() {
@@ -47,7 +50,11 @@ public class FaceCompareCNActivity extends AppCompatActivity {
                     isScanning = false;
                     break;
                 case 1:
-                    Toast.makeText(FaceCompareCNActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    RaceCompareInfo raceCompareInfo = (RaceCompareInfo) msg.obj;
+                    Toast.makeText(FaceCompareCNActivity.this, "登录成功"+raceCompareInfo.getTargetIndex(), Toast.LENGTH_SHORT).show();
+                    int imgId = RegisterInfo.imgRegisterMap.get(raceCompareInfo.getTargetIndex());
+                    bitmap = BitmapFactory.decodeResource(getResources(),imgId);
+                    imageView.setImageBitmap(bitmap);
                     //finish();
                     break;
             }
@@ -120,7 +127,13 @@ public class FaceCompareCNActivity extends AppCompatActivity {
                                                 });
                                             }
                                             if(similarity[0]>0.7){
-                                                handler.sendEmptyMessage(1);
+                                                //handler.sendEmptyMessage(1);
+                                                Message msg = Message.obtain();
+                                                msg.what = 1;
+                                                RaceCompareInfo raceCompareInfo = new RaceCompareInfo();
+                                                raceCompareInfo.setTargetIndex(targetIndex);
+                                                msg.obj = raceCompareInfo;
+                                                handler.sendMessage(msg);
                                             }else {
                                                 handler.sendEmptyMessage(0);
                                             }
