@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seeta.sdk.SeetaImageData;
@@ -27,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 public class FaceCompareCNActivity extends AppCompatActivity {
 
     private FaceCameraView faceCameraView;
+    private TextView textView;
+    private ImageView imageView;
     private boolean isScanning = false;
     private int failedCount = 0;//失败次数
     Handler handler = new Handler() {
@@ -44,7 +48,7 @@ public class FaceCompareCNActivity extends AppCompatActivity {
                     break;
                 case 1:
                     Toast.makeText(FaceCompareCNActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    finish();
+                    //finish();
                     break;
             }
         }
@@ -55,6 +59,8 @@ public class FaceCompareCNActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_face_compare_c_n);
         initView();
+        textView = findViewById(R.id.textView3);
+        imageView = findViewById(R.id.imageView6);
     }
 
     public void onClick(View v) {
@@ -90,11 +96,29 @@ public class FaceCompareCNActivity extends AppCompatActivity {
                                         SeetaImageData loginSeetaImageData = SeetaUtil.ConvertToSeetaImageData(bm);
                                         SeetaRect[] faceRects = SeetaHelper.getInstance().faceDetector2.Detect(loginSeetaImageData);
                                         if(faceRects.length>0){
+                                            long l = System.currentTimeMillis();
                                             //获取人脸区域（这里只有一个所以取0）
                                             SeetaRect faceRect = faceRects[0];
                                             SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(loginSeetaImageData, faceRect);//根据检测到的人脸进行特征点检测
                                             float[] similarity = new float[1];//用来存储人脸相似度值
-                                            SeetaHelper.getInstance().faceRecognizer2.Recognize(loginSeetaImageData, seetaPoints, similarity);//匹配
+                                            int targetIndex = SeetaHelper.getInstance().faceRecognizer2.Recognize(loginSeetaImageData, seetaPoints, similarity);//匹配
+                                            long timeDiff = (System.currentTimeMillis() - l);
+                                            if(similarity.length>0) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        textView.setText(String.format("识别头像ID：%d,similarity:%f,时间：%d毫秒", targetIndex, similarity[0],timeDiff));
+                                                    }
+                                                });
+
+                                            }else{
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        textView.setText(String.format("识别头像ID：%d,时间：%d毫秒", targetIndex,timeDiff));
+                                                    }
+                                                });
+                                            }
                                             if(similarity[0]>0.7){
                                                 handler.sendEmptyMessage(1);
                                             }else {
