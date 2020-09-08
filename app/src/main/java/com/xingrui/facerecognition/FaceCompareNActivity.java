@@ -37,6 +37,7 @@ public class FaceCompareNActivity extends AppCompatActivity {
     private Bitmap bitmapM;
     private Bitmap bitMapS;
     private ProgressBar pb;
+    private TextView tvInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,12 @@ public class FaceCompareNActivity extends AppCompatActivity {
         init();
         pb = findViewById(R.id.progressBar);
         pb.setVisibility(View.GONE);
+        tvInfo = findViewById(R.id.textView2);
     }
 
     public void onClick(View view){
         if(view.getId() == R.id.raceRecogineerInit){
-            register();
+            register2();
         }
         else if(view.getId() == R.id.selectImage){
             PictureSelector.create(this)
@@ -271,6 +273,71 @@ public class FaceCompareNActivity extends AppCompatActivity {
         bitmapM = BitmapFactory.decodeResource(getResources(),R.mipmap.timg);
         ImageView imageView = findViewById(R.id.imageView4);
         imageView.setImageBitmap(bitmapM);
+    }
+
+    /**
+     * 注册2
+     */
+    public void register2(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pb.setVisibility(View.VISIBLE);
+                    }
+                });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(FaceCompareNActivity.this, "init...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                int i = 0;
+                for(Integer id:imgList) {
+                    i++;
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(), id);
+                    SeetaImageData seetaImageData = SeetaUtil.ConvertToSeetaImageData(bitmap);
+                    // 1. 识别人脸区域
+                    SeetaRect[] seetaRects = SeetaHelper.getInstance().faceDetector2.Detect(seetaImageData);
+                    int imgId = i;
+                    if (seetaRects == null || seetaRects.length == 0){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tvInfo.setText(String.format("注册第%d个图片,no face...",imgId));
+                            }
+                        });
+                        //Log.e("regiger","未识别到头像...");
+                        continue;
+                    }
+                    // 2. 提取头像关键点（最大头像）
+                    SeetaPointF[] seetaPoints = SeetaHelper.getInstance().pointDetector2.Detect(seetaImageData, seetaRects[0]);
+                    // 3. 注册头像
+                    int registedFaceIndex = SeetaHelper.getInstance().faceRecognizer2.Register(seetaImageData,seetaPoints);
+                    RegisterInfo.imgRegisterMap.put(registedFaceIndex,id);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvInfo.setText(String.format("注册第%d个图片,Index:%d,ok...",imgId,registedFaceIndex));
+                        }
+                    });
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pb.setVisibility(View.GONE);
+                    }
+                });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(FaceCompareNActivity.this, "初始化完成...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
     }
 
     /**
