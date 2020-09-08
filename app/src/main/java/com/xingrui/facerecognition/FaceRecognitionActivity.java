@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
 import com.seeta.sdk.util.SeetaHelper;
+import com.xingrui.facerecognition.storage.RegisterInfo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,7 +75,10 @@ public class FaceRecognitionActivity extends Activity {
                 if (ContextCompat.checkSelfPermission(this, pers.get(i)) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, new String[]{pers.get(i)}, 1);
                 }else{
-                    initData();
+                    if(!RegisterInfo.init) {
+                        RegisterInfo.init = true;
+                        initData();
+                    }
                 }
             }
         }
